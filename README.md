@@ -135,6 +135,7 @@ docker compose exec api npm run test:cov
 - Se receber `{ "statusCode": 403, "message": "Forbidden resource" }`:
   - Verifique se `ENABLE_API_KEY=true` no `.env`.
   - Envie o header: `x-api-key: <valor de API_KEY>`.
+  - API_KEY: `segredo-super-seguro`
   - Reinicie a API após mudar `.env`:
     ```bash
     docker compose restart api
