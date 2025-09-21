@@ -4,3 +4,48 @@
   box-sizing: border-box;
 }
 
+:where(.ant-segmented) .ant-segmented-item {
+  overflow: visible;
+}
+
+:where(.ant-tabs) .ant-tabs-tab .ant-tabs-tab-btn {
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+}
+
+.pedido-label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 18px; 
+}
+
+.pedido-count {
+  position: absolute;
+  right: -6px;
+  top: 0px;
+  background: #ff4d4f;
+  color: #fff;
+  font-size: 11px;
+  line-height: 18px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  text-align: center;
+  padding: 0 4px;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+@media (max-width: 576px) {
+  .pedido-count {
+    right: -6px;
+    top: -0px;
+    font-size: 10px;
+    line-height: 16px;
+    min-width: 16px;
+    height: 16px;
+  }
+}
+

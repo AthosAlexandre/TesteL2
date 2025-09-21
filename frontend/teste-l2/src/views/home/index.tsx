@@ -12,8 +12,10 @@ import {
   Segmented,
   Grid,
   Flex,
+  Badge,
+  Tooltip,
 } from 'antd';
-import { PlusOutlined, FolderAddOutlined } from '@ant-design/icons';
+import { PlusOutlined, FolderAddOutlined, InboxOutlined } from '@ant-design/icons';
 import { PRODUCTS } from '../../data/products';
 import { usePacking } from '../../packing/PackingContext';
 import { Product } from '../../types';
@@ -45,14 +47,23 @@ export default function Home() {
     message.success(`Adicionado: ${p.produto_id} (Pedido ${activePedidoId})`);
   };
 
-  const pedidoOptions = pedidos.map((p) => ({ label: `Pedido ${p.pedido_id}`, value: p.pedido_id }));
+  const pedidoOptions = pedidos.map((p) => ({
+    value: p.pedido_id,
+    label: (
+      <Tooltip title={`Pedido ${p.pedido_id} — ${p.produtos.length} item(ns)`}>
+        <span className="pedido-label">
+          <InboxOutlined style={{ opacity: 0.85 }} />
+          {`Pedido ${p.pedido_id}`}
+          <span className="pedido-count">{p.produtos.length}</span>
+        </span>
+      </Tooltip>
+    ),
+  }));
 
   return (
     <div style={{ padding: isXs ? 16 : 24 }}>
       <Space direction="vertical" style={{ width: '100%' }} size={isXs ? 'middle' : 'large'}>
-        {/* Header responsivo */}
         <Flex align="center" gap={isXs ? 8 : 12} wrap="wrap">
-          {/* Busca – ocupa toda a largura no mobile */}
           <div style={{ flex: isXs ? '1 1 100%' : '0 1 420px', minWidth: isXs ? '100%' : 280 }}>
             <Input.Search
               allowClear

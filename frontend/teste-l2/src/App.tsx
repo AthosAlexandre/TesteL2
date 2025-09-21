@@ -6,6 +6,7 @@ import ProtectedLayout from './layouts/ProtectedLayout';
 import Login from './views/login';
 import Home from './views/home';
 import Cart from './views/cart';
+import './App.css'
 
 export default function App() {
   return (

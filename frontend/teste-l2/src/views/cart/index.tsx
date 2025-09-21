@@ -9,6 +9,8 @@ import {
   Empty,
   Grid,
   Tag,
+  Badge,
+  Tooltip,
 } from 'antd';
 import {
   DeleteOutlined,
@@ -124,7 +126,24 @@ export default function Cart() {
             tabBarGutter={isXs ? 8 : 16}
             items={pedidos.map((pd) => ({
               key: String(pd.pedido_id),
-              label: `Pedido ${pd.pedido_id} (${pd.produtos.length})`,
+              label: (
+                <span className="tab-pill-wrap">
+                  <Badge
+                    count={pd.produtos.length}
+                    showZero
+                    size="small"
+                    overflowCount={99}
+                    offset={[8, -6]}
+                  >
+                    <Tooltip title={`Pedido ${pd.pedido_id} — ${pd.produtos.length} item(ns)`}>
+                      <span className="tab-pill">
+                        <InboxOutlined style={{ opacity: 0.9 }} />
+                        {` Pedido ${pd.pedido_id}`}
+                      </span>
+                    </Tooltip>
+                  </Badge>
+                </span>
+              ),
               children: (
                 <>
                   <Table
@@ -134,10 +153,10 @@ export default function Cart() {
                     columns={columns.map((col: any) =>
                       col.key === 'action'
                         ? {
-                            ...col,
-                            render: (_: any, __: any, idx: number) =>
-                              (col as any).render(_, __, idx, pd.pedido_id),
-                          }
+                          ...col,
+                          render: (_: any, __: any, idx: number) =>
+                            (col as any).render(_, __, idx, pd.pedido_id),
+                        }
                         : col
                     )}
                     dataSource={pd.produtos}
