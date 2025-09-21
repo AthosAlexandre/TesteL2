@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
+const DEBUG = import.meta.env.DEV;
+
 type AuthState = {
   email: string | null;
   apiKey: string | null;
@@ -26,19 +28,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const parsed = JSON.parse(raw) as AuthState;
         setEmail(parsed.email ?? null);
         setApiKey(parsed.apiKey ?? null);
+        if (DEBUG) {
+          console.log('[Auth] restored from localStorage:', parsed);
+        }
       }
-    } catch {}
+    } catch (e) {
+      if (DEBUG) console.log('[Auth] restore error:', e);
+    }
   }, []);
 
   const persist = (next: AuthState) => {
     localStorage.setItem(AUTH_KEY, JSON.stringify(next));
+    if (DEBUG) console.log('[Auth] persist:', next);
   };
 
   const login = (emailArg: string, apiKeyArg?: string | null) => {
-
     const fromEnv = (import.meta as any)?.env?.VITE_API_KEY ?? null;
+    const key = (apiKeyArg ?? fromEnv ?? null) as string | null;
 
-    const key = apiKeyArg ?? fromEnv ?? null;
+    if (DEBUG) {
+      console.log('[Auth] .env VITE_API_KEY:', fromEnv);
+      console.log('[Auth] login email:', emailArg);
+      console.log('[Auth] login apiKeyArg:', apiKeyArg);
+      console.log('[Auth] login key to use:', key);
+    }
 
     setEmail(emailArg);
     setApiKey(key);
@@ -46,6 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = () => {
+    if (DEBUG) console.log('[Auth] logout');
     setEmail(null);
     setApiKey(null);
     persist({ email: null, apiKey: null, isAuthenticated: false });
