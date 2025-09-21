@@ -10,15 +10,16 @@ const { useBreakpoint } = Grid;
 
 export default function Topbar() {
   const { email, logout } = useAuth();
-  const { count } = usePacking();
+  const { pedidos } = usePacking(); 
   const navigate = useNavigate();
   const location = useLocation();
   const screens = useBreakpoint();
   const isLogin = location.pathname.startsWith('/login');
+  const isXs = !!screens.xs && !screens.sm;
 
   if (isLogin) return null;
 
-  const isXs = !!screens.xs && !screens.sm;
+  const pedidosCount = pedidos.length;
 
   return (
     <div
@@ -32,14 +33,13 @@ export default function Topbar() {
       }}
     >
       <Flex align="center" wrap="wrap" gap={isXs ? 8 : 12}>
-      
         <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
           <HomeOutlined />
           {!isXs && <span>Home</span>}
         </Link>
 
         <Flex style={{ marginLeft: 'auto' }} align="center" gap={isXs ? 8 : 12}>
-          <Badge count={count} size="small">
+          <Badge count={pedidosCount} showZero size="small" title={`${pedidosCount} pedido(s)`}>
             <Button
               icon={<ShoppingCartOutlined />}
               onClick={() => navigate('/carrinho')}
