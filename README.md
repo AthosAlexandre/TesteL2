@@ -49,7 +49,7 @@ Para rodar com Docker (recomendado):
 
 ## 🧪 Como clonar o projeto
 ```bash
-git clone <URL-DO-SEU-REPO>.git
+git clone https://github.com/AthosAlexandre/TesteL2.git
 cd TesteL2
 ```
 
